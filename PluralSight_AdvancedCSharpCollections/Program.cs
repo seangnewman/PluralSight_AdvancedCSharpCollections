@@ -10,7 +10,7 @@ namespace PluralSight_AdvancedCSharpCollections
     {
         static void Main(string[] args)
         {
-            // 
+          
         }
     }
 }
