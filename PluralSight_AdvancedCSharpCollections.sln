@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankHolidays", "BankHolidays\BankHolidays.csproj", "{84D301BD-29BC-432E-B671-02C23B3CAB77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourBooker.Logic", "TourBooker.Logic\TourBooker.Logic.csproj", "{77BB6516-4E38-4461-8CCD-02C12FF7D0E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourBooker.UI", "TourBooker.UI\TourBooker.UI.csproj", "{D021A1A5-6FC2-4C7C-8E13-9D8228461CD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{84D301BD-29BC-432E-B671-02C23B3CAB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84D301BD-29BC-432E-B671-02C23B3CAB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84D301BD-29BC-432E-B671-02C23B3CAB77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77BB6516-4E38-4461-8CCD-02C12FF7D0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BB6516-4E38-4461-8CCD-02C12FF7D0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77BB6516-4E38-4461-8CCD-02C12FF7D0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77BB6516-4E38-4461-8CCD-02C12FF7D0E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D021A1A5-6FC2-4C7C-8E13-9D8228461CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D021A1A5-6FC2-4C7C-8E13-9D8228461CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D021A1A5-6FC2-4C7C-8E13-9D8228461CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D021A1A5-6FC2-4C7C-8E13-9D8228461CD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
