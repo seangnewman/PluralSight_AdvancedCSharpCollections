@@ -9,7 +9,7 @@ namespace Pluralsight.AdvCShColls.TourBooker.Logic
 	public class AppData
 	{
 		public List<Country> AllCountries { get; private set; }
-        public Dictionary<string, Country> AllCountriesByKey { get; private set; }
+        public Dictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
 
         // SortedDictionary sorts by keys!
         //public SortedDictionary<string, Country> AllCountriesByKey { get; private set; }
@@ -23,9 +23,15 @@ namespace Pluralsight.AdvCShColls.TourBooker.Logic
             #region Sorting List.Sort vs LINQ
             //this.AllCountries = reader.ReadAllCountries();
             this.AllCountries = reader.ReadAllCountries().OrderBy(n => n.Name).ToList();
-            var dict  = AllCountries.ToDictionary(x => x.Code,                                        // Creates the Country.Code as the dictionary key
-                                                                                                StringComparer.OrdinalIgnoreCase);      // Intructs key to ignore case when comparing key values               
-            this.AllCountriesByKey = dict;
+            #region Using a Custom Key
+            //var dict  = AllCountries.ToDictionary(x => x.Code,                                        // Creates the Country.Code as the dictionary key
+            //                                                                                    StringComparer.OrdinalIgnoreCase);      // Intructs key to ignore case when comparing key values 
+
+            var dict = AllCountries.ToDictionary(x => x.Code);
+            #endregion
+
+
+           this.AllCountriesByKey = dict;
 
             #endregion
             #region Sorted Dictionary
