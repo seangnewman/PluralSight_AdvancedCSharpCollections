@@ -45,8 +45,9 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
 		{
 			if (code.Length != 3)
 				return null;
-			return AllData.AllCountries.Find(x => x.Code == code);
-
+			//return AllData.AllCountries.Find(x => x.Code == code);
+			AllData.AllCountriesByKey.TryGetValue(code, out Country result);
+			return result;
 		}
 	}
 }
