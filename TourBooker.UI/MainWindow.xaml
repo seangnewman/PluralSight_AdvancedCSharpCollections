@@ -8,34 +8,45 @@
         Title="MainWindow" Height="650" Width="1000" FontSize="20"
 		Left="20" Top="10"
 		Loaded="Window_Loaded">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="2*" />
-		</Grid.ColumnDefinitions>
-		<GroupBox Header="Look up country" Grid.Column="0" Margin="3">
-			<Grid DockPanel.Dock="Left" x:Name="grdSelectCountry" Margin="3">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="1.5*" />
-				</Grid.ColumnDefinitions>
-				<TextBlock>Enter code</TextBlock>
-				<TextBox Grid.Column="1" MinWidth="80"  x:Name="tbxCountryCode" TextChanged="tbxCountryCode_TextChanged"></TextBox>
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Code}" />
-				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Name}" />
-				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Region}" />
-			</Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Create Tour" Grid.Column="0" Margin="3">
+            <DockPanel Margin="3">
+                <Label Grid.Column="0" DockPanel.Dock="Top">Name:</Label>
+                <TextBox DockPanel.Dock="Top" x:Name="tbxTourName" TextChanged="tbxTourName_TextChanged"></TextBox>
+                <Separator DockPanel.Dock="Top" Margin="0 3 0 3" />
+                <TextBlock DockPanel.Dock="Top" Margin="0 3 0 3">Itinerary:</TextBlock>
 
-		</GroupBox>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Grid.Row="0" Margin="3,3,3,0" x:Name="btnAddToItinerary" 
+							Click="btnAddToItinerary_Click" Height="31" VerticalAlignment="Top">Add Country</Button>
+                    <Button Grid.Column="1" Grid.Row="0" Margin="3" x:Name="btnRemoveFromItinerary" 
+							Click="btnRemoveFromItinerary_Click">Remove Country</Button>
+                    <Button Grid.Column="0" Grid.Row="1" Margin="3" x:Name="btnInsertInItinerary"
+							Click="btnInsertInItinerary_Click">Insert Before</Button>
+                </Grid>
+                <Button DockPanel.Dock="Bottom" x:Name="btnSaveTour" Click="btnSaveTour_Click">Save Tour</Button>
+                <ListBox Margin="0 3 0 3" x:Name="lbxItinerary" 
+						 ItemsSource="{Binding Path=ItineraryBuilder}" />
 
-		<GroupBox Header="All Countries" Grid.Column="1" Margin="3">
-			<ListBox x:Name="lbxAllCountries" Margin="3"
-				ItemsSource="{Binding Path=AllCountries}" />
-		</GroupBox>
-	</Grid>
+            </DockPanel>
+
+        </GroupBox>
+
+        <GroupBox Header="All Countries" Grid.Column="1" Margin="3">
+            <ListBox x:Name="lbxAllCountries" Margin="3"
+				ItemsSource="{Binding Path=AllCountries}" SelectionChanged="lbxAllCountries_SelectionChanged" />
+        </GroupBox>
+    </Grid>
 </Window>

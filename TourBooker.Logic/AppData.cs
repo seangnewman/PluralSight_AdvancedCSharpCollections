@@ -11,6 +11,9 @@ namespace Pluralsight.AdvCShColls.TourBooker.Logic
 		public List<Country> AllCountries { get; private set; }
         public Dictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
 
+        public LinkedList<Country> ItineraryBuilder { get; } = new LinkedList<Country>();
+
+        public SortedDictionary<string, Tour> AllTours { get; private set; } = new SortedDictionary<string, Tour>();
         // SortedDictionary sorts by keys!
         //public SortedDictionary<string, Country> AllCountriesByKey { get; private set; }
 
