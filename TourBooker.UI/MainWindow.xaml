@@ -35,6 +35,9 @@
 							Click="btnRemoveFromItinerary_Click">Remove Country</Button>
                     <Button Grid.Column="0" Grid.Row="1" Margin="3" x:Name="btnInsertInItinerary"
 							Click="btnInsertInItinerary_Click">Insert Before</Button>
+                    <Button Grid.Column="1" Grid.Row="1" Margin="3" x:Name="btnUndo"
+							Click="btnUndo_Click">Undo</Button>
+
                 </Grid>
                 <Button DockPanel.Dock="Bottom" x:Name="btnSaveTour" Click="btnSaveTour_Click">Save Tour</Button>
                 <ListBox Margin="0 3 0 3" x:Name="lbxItinerary" 

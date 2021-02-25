@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pluralsight.AdvCShColls.TourBooker.Logic
+namespace TourBooker.Logic
 {
 	public class AppData
 	{
@@ -14,6 +14,8 @@ namespace Pluralsight.AdvCShColls.TourBooker.Logic
         public LinkedList<Country> ItineraryBuilder { get; } = new LinkedList<Country>();
 
         public SortedDictionary<string, Tour> AllTours { get; private set; } = new SortedDictionary<string, Tour>();
+
+        public Stack<ItineraryChange> ChangeLog { get; } = new Stack<ItineraryChange>();
         // SortedDictionary sorts by keys!
         //public SortedDictionary<string, Country> AllCountriesByKey { get; private set; }
 

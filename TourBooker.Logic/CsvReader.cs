@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Pluralsight.AdvCShColls.TourBooker.Logic
+namespace  TourBooker.Logic
 {
 	public class CsvReader
 	{

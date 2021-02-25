@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pluralsight.AdvCShColls.TourBooker.Logic
+namespace TourBooker.Logic
 {
     public class CountryCode
     {
