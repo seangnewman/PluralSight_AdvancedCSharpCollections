@@ -16,6 +16,14 @@ namespace TourBooker.Logic
         public SortedDictionary<string, Tour> AllTours { get; private set; } = new SortedDictionary<string, Tour>();
 
         public Stack<ItineraryChange> ChangeLog { get; } = new Stack<ItineraryChange>();
+
+        public List<Customer> Customers { get; set; } = new List<Customer>() { new Customer("Sean"), new Customer("Rodney") };
+        #region BookingRequests
+        // ValueTuple (Customer, Tour) represents booking request  -- A struct is clearer
+        public Queue<(Customer TheCustomer, Tour TheTour)> BookingRequests { get; } = new Queue<(Customer TheCustomer, Tour theTour)>();
+
+        //public Queue<BookingRequests> BookingRequests { get; } = new Queue<BookingRequests>();
+        #endregion
         // SortedDictionary sorts by keys!
         //public SortedDictionary<string, Country> AllCountriesByKey { get; private set; }
 

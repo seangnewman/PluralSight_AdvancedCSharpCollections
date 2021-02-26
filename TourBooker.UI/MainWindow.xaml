@@ -8,48 +8,111 @@
         Title="MainWindow" Height="650" Width="1000" FontSize="20"
 		Left="20" Top="10"
 		Loaded="Window_Loaded">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="2*" />
-        </Grid.ColumnDefinitions>
-        <GroupBox Header="Create Tour" Grid.Column="0" Margin="3">
-            <DockPanel Margin="3">
-                <Label Grid.Column="0" DockPanel.Dock="Top">Name:</Label>
-                <TextBox DockPanel.Dock="Top" x:Name="tbxTourName" TextChanged="tbxTourName_TextChanged"></TextBox>
-                <Separator DockPanel.Dock="Top" Margin="0 3 0 3" />
-                <TextBlock DockPanel.Dock="Top" Margin="0 3 0 3">Itinerary:</TextBlock>
+	<TabControl>
+		<TabItem Header="Tour Company UI">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<GroupBox Header="Create Tour" Grid.Column="0" Margin="3">
+					<DockPanel Margin="3">
+						<Label Grid.Column="0" DockPanel.Dock="Top">Name:</Label>
+						<TextBox DockPanel.Dock="Top" x:Name="tbxTourName"></TextBox>
+						<TextBlock DockPanel.Dock="Top" Margin="0 3 0 3">Itinerary:</TextBlock>
 
-                <Grid DockPanel.Dock="Top">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Grid.Row="0" Margin="3,3,3,0" x:Name="btnAddToItinerary" 
-							Click="btnAddToItinerary_Click" Height="31" VerticalAlignment="Top">Add Country</Button>
-                    <Button Grid.Column="1" Grid.Row="0" Margin="3" x:Name="btnRemoveFromItinerary" 
+						<Grid DockPanel.Dock="Top">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+							<Button Grid.Column="0" Grid.Row="0" Margin="3" x:Name="btnAddToItinerary" 
+							Click="btnAddToItinerary_Click">Add Country</Button>
+							<Button Grid.Column="1" Grid.Row="0" Margin="3" x:Name="btnRemoveFromItinerary" 
 							Click="btnRemoveFromItinerary_Click">Remove Country</Button>
-                    <Button Grid.Column="0" Grid.Row="1" Margin="3" x:Name="btnInsertInItinerary"
-							Click="btnInsertInItinerary_Click">Insert Before</Button>
-                    <Button Grid.Column="1" Grid.Row="1" Margin="3" x:Name="btnUndo"
+							<Button Grid.Column="0" Grid.Row="1" Margin="3" x:Name="btnInsertInItinerary"
+							Click="btnInsertInItinerary_Click">Insert Country</Button>
+							<Button Grid.Column="1" Grid.Row="1" Margin="3" x:Name="btnUndo"
 							Click="btnUndo_Click">Undo</Button>
+						</Grid>
+						<Button DockPanel.Dock="Bottom" x:Name="btnSaveTour" Click="btnSaveTour_Click">Save Tour</Button>
+						<ListBox Margin="0 3 0 3" x:Name="lbxItinerary" ItemsSource="{Binding Path=ItineraryBuilder}" />
 
-                </Grid>
-                <Button DockPanel.Dock="Bottom" x:Name="btnSaveTour" Click="btnSaveTour_Click">Save Tour</Button>
-                <ListBox Margin="0 3 0 3" x:Name="lbxItinerary" 
-						 ItemsSource="{Binding Path=ItineraryBuilder}" />
+					</DockPanel>
 
-            </DockPanel>
+				</GroupBox>
 
-        </GroupBox>
+				<GroupBox Header="All Countries" Grid.Column="1" Margin="3">
+					<ListBox x:Name="lbxAllCountries" Margin="3"
+							 ItemsSource="{Binding Path=AllCountries}" />
+				</GroupBox>
 
-        <GroupBox Header="All Countries" Grid.Column="1" Margin="3">
-            <ListBox x:Name="lbxAllCountries" Margin="3"
-				ItemsSource="{Binding Path=AllCountries}" SelectionChanged="lbxAllCountries_SelectionChanged" />
-        </GroupBox>
-    </Grid>
+				<GroupBox Grid.Column="2" Header="Approve booking requests">
+					<DockPanel>
+						<TextBlock DockPanel.Dock="Top" Margin="3">Next request:</TextBlock>
+						<TextBox DockPanel.Dock="Top" HorizontalAlignment="Stretch" 
+								 x:Name="tbxNextBookingRequest"
+								 Margin="3" IsReadOnly="True"></TextBox>
+						<TextBlock DockPanel.Dock="Top" Margin="3">All requests in queue:</TextBlock>
+						<Button DockPanel.Dock="Bottom" x:Name="btnApproveRequest" 
+								Margin="3" 
+								Click="btnApproveRequest_Click">Approve next request"</Button>
+						<ListBox x:Name="lbxRequests" Margin="3" 
+								 IsEnabled="False"
+								 ItemsSource="{Binding Path=BookingRequests}" SelectionChanged="lbxRequests_SelectionChanged" />
+					</DockPanel>
+				</GroupBox>
+
+			</Grid>
+
+		</TabItem>
+		<TabItem Header="Customer UI">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="2*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="2*" />
+					<RowDefinition Height="1.5*" />
+				</Grid.RowDefinitions>
+				<GroupBox Grid.Column="0" Grid.RowSpan="2" Header="Select customer">
+					<ListBox x:Name="lbxCustomer" ItemsSource="{Binding Path=Customers}" SelectedIndex="0" SelectionChanged="lbxCustomer_SelectionChanged" />
+				</GroupBox>
+				<GroupBox Grid.Column="1" Header="Request to book tour(s)">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<DockPanel Grid.Column="0">
+							<Label DockPanel.Dock="Top">Available tours:</Label>
+							<Button DockPanel.Dock="Bottom" x:Name="btnBookTour" Click="btnBookTour_Click">Request this tour</Button>
+							<Grid DockPanel.Dock="Top">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<ListBox Grid.Column="0" x:Name="lbxToursToBook" 
+									 ItemsSource="{Binding Path=AllTours.Values}" 
+                                     SelectionChanged="lbxToursToBook_SelectionChanged"
+                                     SelectionMode="Multiple"></ListBox>
+								<TextBox Grid.Column="1" x:Name="tbxToursItinerary" 
+									 TextWrapping="Wrap" IsEnabled="False" 
+									 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbxToursItinerary_TextChanged"/>
+								<!--<ListBox Grid.Column="1" x:Name="lbxSelectedTourItinerary" />-->
+							</Grid>
+						</DockPanel>
+					</Grid>
+				</GroupBox>
+				<GroupBox Grid.Row="1" Grid.Column="1" Header="Booked Tours" x:Name="gbxBookedTours">
+					<ListBox x:Name="lbxConfirmedBookedTours" ItemsSource="{Binding Path=BookedTours}" />
+				</GroupBox>
+			</Grid>
+		</TabItem>
+	</TabControl>
 </Window>

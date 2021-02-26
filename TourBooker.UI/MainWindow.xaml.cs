@@ -1,6 +1,8 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using TourBooker.Logic;
@@ -163,6 +165,91 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
             ItineraryChange lastChange = AllData.ChangeLog.Pop();
             ChangeUndoer.Undo(AllData.ItineraryBuilder, lastChange);
             this.UpdateAllLists();
+        }
+
+        private void tbxToursItinerary_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void lbxToursToBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<Tour> selectedTours = GetRequestedTours();
+
+            StringBuilder sb = new StringBuilder();
+
+
+            // loop through every tour
+            foreach (var tour in selectedTours)
+            {
+                sb.AppendLine($"{tour.Name}");
+                // loop through every country in tour
+                foreach (var country in tour.Itinerary)
+                {
+                    sb.AppendLine($"     {country.Name}");
+                }
+                sb.AppendLine();
+            }
+            this.tbxToursItinerary.Text = sb.ToString();
+        }
+
+        private List<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>().ToList();
+
+        private void btnBookTour_Click(object sender, RoutedEventArgs e)
+        {
+            Customer customer = this.lbxCustomer.SelectedItem as Customer;
+
+            if (customer == null)
+            {
+                MessageBox.Show("You must select which customer you are!");
+                return;
+            }
+
+            List<Tour> requestedTours = GetRequestedTours();
+            if (requestedTours.Count == 0)
+            {
+                MessageBox.Show("You must select a tour to book!", "No Tour Selected");
+                return;
+            }
+
+            foreach (var tour in requestedTours)
+            {
+                // select ValueTuple for each cutomer and tour
+                 this.AllData.BookingRequests.Enqueue((customer, tour));
+            }
+
+            MessageBox.Show($"{requestedTours.Count} tours requested", "Tours Requested");
+
+            this.UpdateAllLists();
+        }
+
+        private void btnApproveRequest_Click(object sender, RoutedEventArgs e)
+        {
+            if (AllData.BookingRequests.Count == 0)
+            {
+                return;
+            }
+
+            var request = AllData.BookingRequests.Dequeue();
+            request.TheCustomer.BookedTours.Add(request.TheTour);
+            this.UpdateAllLists();
+        }
+
+        private string GetLatestBookingRequestText()
+        {
+            if (AllData.BookingRequests.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return AllData.BookingRequests.Peek().ToString();
+            }
+        }
+
+        private void lbxRequests_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

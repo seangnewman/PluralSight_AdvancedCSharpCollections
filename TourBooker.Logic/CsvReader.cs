@@ -9,7 +9,7 @@ namespace  TourBooker.Logic
 {
 	public class CsvReader
 	{
-		private string _csvFilePath;
+		private readonly string _csvFilePath;
 
 		public CsvReader(string csvFilePath)
 		{
@@ -65,6 +65,8 @@ namespace  TourBooker.Logic
 			int.TryParse(popText, out int population);
 			return new Country(name, code, region, population);
 		}
+
+		
 
 
 	}

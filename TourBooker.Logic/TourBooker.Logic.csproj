@@ -42,10 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppData.cs" />
+    <Compile Include="BookingRequests.cs" />
     <Compile Include="ChangeUndoer.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CountryCode.cs" />
     <Compile Include="CsvReader.cs" />
+    <Compile Include="Customer.cs" />
     <Compile Include="ItineraryChange.cs" />
     <Compile Include="LinkedListExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
