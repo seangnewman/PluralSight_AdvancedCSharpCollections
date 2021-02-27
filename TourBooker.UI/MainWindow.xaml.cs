@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TourBooker.Logic;
@@ -195,7 +196,7 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
 
         private List<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>().ToList();
 
-        private void btnBookTour_Click(object sender, RoutedEventArgs e)
+        private async void btnBookTour_Click(object sender, RoutedEventArgs e)
         {
             Customer customer = this.lbxCustomer.SelectedItem as Customer;
 
@@ -212,11 +213,16 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
                 return;
             }
 
+            List<Task> tasks = new List<Task>();
             foreach (var tour in requestedTours)
             {
+
                 // select ValueTuple for each cutomer and tour
-                 this.AllData.BookingRequests.Enqueue((customer, tour));
+                Task task = Task.Run( () => this.AllData.BookingRequests.Enqueue((customer, tour)) );
+                tasks.Add(task);
+                 
             }
+            await Task.WhenAll(tasks);
 
             MessageBox.Show($"{requestedTours.Count} tours requested", "Tours Requested");
 
@@ -225,26 +231,36 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
 
         private void btnApproveRequest_Click(object sender, RoutedEventArgs e)
         {
-            if (AllData.BookingRequests.Count == 0)
-            {
-                return;
-            }
+            //if (AllData.BookingRequests.Count == 0)
+            //{
+            //    return;
+            //}
 
-            var request = AllData.BookingRequests.Dequeue();
-            request.TheCustomer.BookedTours.Add(request.TheTour);
-            this.UpdateAllLists();
+            //var request = AllData.BookingRequests.Dequeue();
+            bool success = AllData.BookingRequests.TryDequeue(out var request);
+
+            if (success)
+            {
+                request.TheCustomer.BookedTours.Add(request.TheTour);
+                this.UpdateAllLists();
+            }
+            
         }
 
         private string GetLatestBookingRequestText()
         {
-            if (AllData.BookingRequests.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return AllData.BookingRequests.Peek().ToString();
-            }
+            //if (AllData.BookingRequests.Count == 0)
+            //{
+            //    return null;
+            //}
+            //else
+            //{
+            //    return AllData.BookingRequests.Peek().ToString();
+            //}
+
+            bool success = AllData.BookingRequests.TryPeek(out var result);
+
+           return success ? result.ToString() : null;
         }
 
         private void lbxRequests_SelectionChanged(object sender, SelectionChangedEventArgs e)
