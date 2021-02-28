@@ -10,12 +10,15 @@ using TourBooker.Logic;
 
 namespace Pluralsight.AdvCShColls.TourBooker.UI
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         private AppData AllData { get; } = new AppData();
+        private List<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>().ToList();
+
 
         public MainWindow()
         {
@@ -66,6 +69,20 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
         private void UpdateAllLists()
         {
             this.lbxItinerary.Items.Refresh();
+            this.lbxToursToBook.Items.Refresh();
+            this.lbxConfirmedBookedTours.Items.Refresh();
+            this.lbxRequests.Items.Refresh();
+            // Next statement is a workaround because WPF seems to have problems
+            // displaying the contents of a concurrent list.
+            // Unsure of the cause - most likely an issue with WPF.
+            // Realistically, in normal code you wouldn't normally be hooking a WPF listbox
+            // up to a concurrent queue anyway because of issues of concurrency and
+            // mixing backend data and UI - it's only done in this demo
+            // in order to provide an easy way to see what's in the collections.
+            this.lbxRequests.ItemsSource = AllData.BookingRequests.ToList();
+            this.lbxRequests.Items.Refresh();
+            this.tbxNextBookingRequest.Text = GetLatestBookingRequestText();
+
         }
 
         private void btnRemoveFromItinerary_Click(object sender, RoutedEventArgs e)
@@ -192,10 +209,10 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
                 sb.AppendLine();
             }
             this.tbxToursItinerary.Text = sb.ToString();
+            this.lbxCountriesInSelection.ItemsSource = GetCountriesInSelection();
         }
 
-        private List<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>().ToList();
-
+   
         private async void btnBookTour_Click(object sender, RoutedEventArgs e)
         {
             Customer customer = this.lbxCustomer.SelectedItem as Customer;
@@ -264,6 +281,72 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
         }
 
         private void lbxRequests_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        //private SortedSet<Country> GetCountriesInSelection()
+        //{
+        //    var countries = new SortedSet<Country>(CountryNameComparer.Instance);
+
+        //    List<Tour> selectedTours = GetRequestedTours();
+
+        //    foreach (var tour in selectedTours)
+        //    {
+        //        foreach (var country in tour.Itinerary)
+        //        {
+        //            countries.Add(country);
+        //        }
+        //    }
+        //    // Returns duplicate values in tours
+        //    //return countries;
+        //    // Avoid due to inefficiencies
+        //    //return countries.Distinct().ToList();
+
+        //    // return as HashSet removes duplicates
+        //    // HashSet ignores duplicate values
+        //    return countries;
+        //}
+
+        private SortedSet<Country> GetCountriesInSelection()
+        {
+            List<Tour> selectTours = GetRequestedTours();
+
+            if (selectTours.Count == 0)
+            {
+                return new SortedSet<Country>(CountryNameComparer.Instance);
+            }
+
+            var allSets = new List<SortedSet<Country>>();
+
+            foreach (var tour in selectTours)
+            {
+                SortedSet<Country> tourCountries = new SortedSet<Country>(tour.Itinerary, CountryNameComparer.Instance);
+                allSets.Add(tourCountries);
+            }
+
+            SortedSet<Country> result = allSets[0];
+
+            for (int i = 0; i < allSets.Count; i++)
+            {
+                result.UnionWith(allSets[i]);             // Returns unique countries in all selected sets
+               // result.IntersectWith(allSets[i]);    // Only returns countries that appear in all selected sets
+            }
+
+            return result;
+        }
+
+        private void lbxCountriesInSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void lbxCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Customer customer = this.lbxCustomer.SelectedItem as Customer;
+            this.gbxBookedTours.DataContext = customer;
+        }
+
+        private void lbxConfirmedBookedTours_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

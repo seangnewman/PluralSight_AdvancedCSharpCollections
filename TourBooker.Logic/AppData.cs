@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -52,7 +53,30 @@ namespace TourBooker.Logic
             //this.AllCountriesByKey = new SortedList<string, Country>(dict);                                       // Initalize sorted dict using the unsorted Dictionary 
 
             #endregion
+            // Create Demo Data for Display
+            this.SetupHardCodedTours();
 
+
+        }
+
+        private void SetupHardCodedTours()
+        {
+            Country finland = AllCountriesByKey[new CountryCode("FIN")];
+            Country greenland = AllCountriesByKey[new CountryCode("GRL")];
+            Country iceland = AllCountriesByKey[new CountryCode("ISL")];
+
+            Country newZealand = AllCountriesByKey[new CountryCode("NZL")];
+            Country maldives = AllCountriesByKey[new CountryCode("MDV")];
+            Country fiji = AllCountriesByKey[new CountryCode("FJI")];
+
+            Country newCaledonia = AllCountriesByKey[new CountryCode("NCL")];
+
+            Tour xmas = new Tour("Snowy Christmas", new Country[] { finland, greenland, iceland });
+            AllTours.Add(xmas.Name, xmas);
+            Tour islands = new Tour("Exotic Islands", new Country[] { newZealand, maldives, fiji });
+            AllTours.Add(islands.Name, islands);
+            Tour newTour = new Tour("New Countries", new Country[] { newZealand, newCaledonia, newZealand });
+            AllTours.Add(newTour.Name, newTour);
 
         }
     }

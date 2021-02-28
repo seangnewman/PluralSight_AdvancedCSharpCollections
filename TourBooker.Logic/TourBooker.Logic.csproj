@@ -46,6 +46,7 @@
     <Compile Include="ChangeUndoer.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CountryCode.cs" />
+    <Compile Include="CountryNameComparer.cs" />
     <Compile Include="CsvReader.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="ItineraryChange.cs" />

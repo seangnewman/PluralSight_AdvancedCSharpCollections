@@ -64,7 +64,7 @@
 								Click="btnApproveRequest_Click">Approve next request"</Button>
 						<ListBox x:Name="lbxRequests" Margin="3" 
 								 IsEnabled="False"
-								 ItemsSource="{Binding Path=BookingRequests}" SelectionChanged="lbxRequests_SelectionChanged" />
+								 ItemsSource="{Binding Path=BookingRequests}" />
 					</DockPanel>
 				</GroupBox>
 
@@ -79,7 +79,7 @@
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="2*" />
-					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<GroupBox Grid.Column="0" Grid.RowSpan="2" Header="Select customer">
 					<ListBox x:Name="lbxCustomer" ItemsSource="{Binding Path=Customers}" SelectedIndex="0" SelectionChanged="lbxCustomer_SelectionChanged" />
@@ -89,28 +89,39 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<DockPanel Grid.Column="0">
-							<Label DockPanel.Dock="Top">Available tours:</Label>
-							<Button DockPanel.Dock="Bottom" x:Name="btnBookTour" Click="btnBookTour_Click">Request this tour</Button>
-							<Grid DockPanel.Dock="Top">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="*" />
-								</Grid.ColumnDefinitions>
-								<ListBox Grid.Column="0" x:Name="lbxToursToBook" 
+						<Grid Grid.Column="0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Label Grid.Column="0" Grid.Row="0">Available tours:</Label>
+							<Label Grid.Column="2" Grid.Row="0">Countries in selection:</Label>
+							<Button Grid.Column="0" Grid.Row="2"
+									x:Name="btnBookTour" 
+									Click="btnBookTour_Click">Request these tours</Button>
+							<ListBox Grid.Column="0" Grid.Row="1" 
+									 x:Name="lbxToursToBook" Margin="3"
 									 ItemsSource="{Binding Path=AllTours.Values}" 
                                      SelectionChanged="lbxToursToBook_SelectionChanged"
                                      SelectionMode="Multiple"></ListBox>
-								<TextBox Grid.Column="1" x:Name="tbxToursItinerary" 
-									 TextWrapping="Wrap" IsEnabled="False" 
-									 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbxToursItinerary_TextChanged"/>
-								<!--<ListBox Grid.Column="1" x:Name="lbxSelectedTourItinerary" />-->
-							</Grid>
-						</DockPanel>
+							<TextBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
+									 x:Name="tbxToursItinerary" Margin="3"
+									 TextWrapping="Wrap" IsReadOnly="True" 
+									 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+									 VerticalScrollBarVisibility="Auto" />
+							<ListBox Grid.Column="2" Grid.Row="1"  Grid.RowSpan="2"
+									 x:Name="lbxCountriesInSelection" Margin="3" SelectionChanged="lbxCountriesInSelection_SelectionChanged" />
+						</Grid>
 					</Grid>
 				</GroupBox>
 				<GroupBox Grid.Row="1" Grid.Column="1" Header="Booked Tours" x:Name="gbxBookedTours">
-					<ListBox x:Name="lbxConfirmedBookedTours" ItemsSource="{Binding Path=BookedTours}" />
+					<ListBox x:Name="lbxConfirmedBookedTours" ItemsSource="{Binding Path=BookedTours}" SelectionChanged="lbxConfirmedBookedTours_SelectionChanged" />
 				</GroupBox>
 			</Grid>
 		</TabItem>
