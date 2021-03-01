@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace TourBooker.Logic
 {
     public class AppData
     {
-        public List<Country> AllCountries { get; private set; }
-        public Dictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
+        //public List<Country> AllCountries { get; private set; }
+        // public Dictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
+       // public ReadOnlyCollection<Country> AllCountries { get; private set; }
+
+        public ImmutableArray<Country> AllCountries { get; private set; }
+
+        //public ReadOnlyDictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
+        public ImmutableDictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
 
         public LinkedList<Country> ItineraryBuilder { get; } = new LinkedList<Country>();
 
@@ -34,16 +42,17 @@ namespace TourBooker.Logic
             CsvReader reader = new CsvReader(csvFilePath);
             #region Sorting List.Sort vs LINQ
             //this.AllCountries = reader.ReadAllCountries();
-            this.AllCountries = reader.ReadAllCountries().OrderBy(n => n.Name).ToList();
+            var countries = reader.ReadAllCountries().OrderBy(n => n.Name).ToList();
+            this.AllCountries = countries.ToImmutableArray();
             #region Using a Custom Key
             //var dict  = AllCountries.ToDictionary(x => x.Code,                                        // Creates the Country.Code as the dictionary key
             //                                                                                    StringComparer.OrdinalIgnoreCase);      // Intructs key to ignore case when comparing key values 
 
-            var dict = AllCountries.ToDictionary(x => x.Code);
+           // var dict = AllCountries.ToDictionary(x => x.Code);
             #endregion
 
 
-            this.AllCountriesByKey = dict;
+            //this.AllCountriesByKey = dict;
 
             #endregion
             #region Sorted Dictionary
@@ -54,6 +63,8 @@ namespace TourBooker.Logic
 
             #endregion
             // Create Demo Data for Display
+
+            this.AllCountriesByKey = AllCountries.ToImmutableDictionary(x => x.Code);
             this.SetupHardCodedTours();
 
 
