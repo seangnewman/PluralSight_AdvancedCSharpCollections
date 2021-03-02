@@ -9,13 +9,7 @@ namespace TourBooker.Logic
 {
     public class AppData
     {
-        //public List<Country> AllCountries { get; private set; }
-        // public Dictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
-       // public ReadOnlyCollection<Country> AllCountries { get; private set; }
-
-        public ImmutableArray<Country> AllCountries { get; private set; }
-
-        //public ReadOnlyDictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
+        public IReadOnlyList<Country> AllCountries { get; private set; }
         public ImmutableDictionary<CountryCode, Country> AllCountriesByKey { get; private set; }
 
         public LinkedList<Country> ItineraryBuilder { get; } = new LinkedList<Country>();
@@ -26,47 +20,21 @@ namespace TourBooker.Logic
 
         public List<Customer> Customers { get; set; } = new List<Customer>() { new Customer("Sean"), new Customer("Rodney") };
         #region BookingRequests
-        // ValueTuple (Customer, Tour) represents booking request  -- A struct is clearer
         public ConcurrentQueue<(Customer TheCustomer, Tour TheTour)> BookingRequests { get; } = new ConcurrentQueue<(Customer TheCustomer, Tour theTour)>();
 
-        //public Queue<BookingRequests> BookingRequests { get; } = new Queue<BookingRequests>();
         #endregion
-        // SortedDictionary sorts by keys!
-        //public SortedDictionary<string, Country> AllCountriesByKey { get; private set; }
-
-        //public SortedList<string, Country> AllCountriesByKey { get; private set; }
 
 
         public void Initialize(string csvFilePath)
         {
             CsvReader reader = new CsvReader(csvFilePath);
             #region Sorting List.Sort vs LINQ
-            //this.AllCountries = reader.ReadAllCountries();
-            var countries = reader.ReadAllCountries().OrderBy(n => n.Name).ToList();
-            this.AllCountries = countries.ToImmutableArray();
-            #region Using a Custom Key
-            //var dict  = AllCountries.ToDictionary(x => x.Code,                                        // Creates the Country.Code as the dictionary key
-            //                                                                                    StringComparer.OrdinalIgnoreCase);      // Intructs key to ignore case when comparing key values 
-
-           // var dict = AllCountries.ToDictionary(x => x.Code);
+            var countries = reader.ReadAllCountries().OrderBy(n => n.Name);
+            this.AllCountries = countries.ToArray();
             #endregion
-
-
-            //this.AllCountriesByKey = dict;
-
-            #endregion
-            #region Sorted Dictionary
-            //var dict = AllCountries.ToDictionary(x => x.Code,                                                                       // Creates the Country.Code as the dictionary key
-            //                                                                                    StringComparer.OrdinalIgnoreCase);           // Intructs key to ignore case when comparing key values               
-
-            //this.AllCountriesByKey = new SortedList<string, Country>(dict);                                       // Initalize sorted dict using the unsorted Dictionary 
-
-            #endregion
-            // Create Demo Data for Display
-
+            
             this.AllCountriesByKey = AllCountries.ToImmutableDictionary(x => x.Code);
             this.SetupHardCodedTours();
-
 
         }
 

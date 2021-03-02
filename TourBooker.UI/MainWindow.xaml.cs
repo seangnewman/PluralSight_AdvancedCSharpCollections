@@ -17,7 +17,10 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
     public partial class MainWindow : Window
     {
         private AppData AllData { get; } = new AppData();
-        private List<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>().ToList();
+
+        //private List<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>().ToList();
+        private IEnumerable<Tour> GetRequestedTours() => this.lbxToursToBook.SelectedItems.Cast<Tour>();
+        
 
 
         public MainWindow()
@@ -192,7 +195,7 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
 
         private void lbxToursToBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<Tour> selectedTours = GetRequestedTours();
+            var selectedTours = GetRequestedTours();
 
             StringBuilder sb = new StringBuilder();
 
@@ -223,7 +226,7 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
                 return;
             }
 
-            List<Tour> requestedTours = GetRequestedTours();
+            List<Tour> requestedTours = GetRequestedTours().ToList();
             if (requestedTours.Count == 0)
             {
                 MessageBox.Show("You must select a tour to book!", "No Tour Selected");
@@ -309,9 +312,9 @@ namespace Pluralsight.AdvCShColls.TourBooker.UI
 
         private SortedSet<Country> GetCountriesInSelection()
         {
-            List<Tour> selectTours = GetRequestedTours();
+            var  selectTours = GetRequestedTours();
 
-            if (selectTours.Count == 0)
+            if (!selectTours.Any())
             {
                 return new SortedSet<Country>(CountryNameComparer.Instance);
             }
